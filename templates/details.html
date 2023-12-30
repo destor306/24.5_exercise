@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<h1>You made it!</h1>
+<div>
+    <h2 class="display-5">
+        {{user.username}}
+
+    </h2>
+    <p>
+        {{user.email}}
+        
+    </p>
+    <p>First name : {{user.first_name}}</p>
+    <p>last name : {{user.last_name}}</p>
+    {%if feedbacks%}
+    {%for feedback in feedbacks%}
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title text-info">{{feedback.username}} - {{feedback.title}}</h5>
+            
+            <!-- Form for deletion -->
+            <form style="display:inline" action="/users/{{ feedback.username }}/delete" method="POST">
+                <button type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+            </form>
+            {% if session['user_name'] %}
+            
+            <p class="card-text">{{feedback.content}}</p>
+            <!-- Form for editing -->
+            <form style="display:inline" action="/feedback/{{feedback.id}}/update" method="GET">
+                <button type="submit" class="btn btn-sm btn-info"><i class="fa-regular fa-pen-to-square"></i></button>
+            </form>
+            <!-- Form for deletion -->
+            <form style="display:inline" action="/feedback/{{feedback.id}}/delete" method="POST">
+                <button type="submit" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></button>
+            </form>
+            
+            {% endif %}
+        </div>
+    </div>
+    
+    {%endfor%}
+    {%endif%}
+    <a href="/users/{{user.username}}/feedback/add">Add Feedback</a>
+        
+</div>
+
+
+{% endblock%}
